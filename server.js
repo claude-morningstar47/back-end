@@ -55,12 +55,12 @@ app.use(
   })
 );
 
-const minuites = 5; // Bloquer les tentatives de connexion pendant 5 minutes
+const minuites = 2; // Bloquer les tentatives de connexion pendant 5 minutes
 const windowMs = minuites * 60 * 1000;
 
 const limiter = rateLimit({
   windowMs: windowMs,
-  max: 5, // Autoriser seulement 5 tentatives de connexion par fenêtre
+  max: 10, // Autoriser seulement 5 tentatives de connexion par fenêtre
   message: "Too many login attempts, please try again later.",
 });
 
