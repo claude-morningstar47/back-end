@@ -204,6 +204,8 @@ const getAllAppointmentsByWeek = async (req, res) => {
 
         // Ajouter le nouvel utilisateur au tableau de résultats
         userAppointmentsByWeek.push(newUser);
+        userAppointmentsByWeek.sort((a, b) => a.name.localeCompare(b.name));
+
       }
     });
 
