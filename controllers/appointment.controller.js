@@ -33,7 +33,7 @@ const createAppointment = async (req, res) => {
 
 const getAppointmentById = async (req, res) => {
   try {
-    const appointment = await Appointment.findById(req.params.id).exec();
+    const appointment = await Appointment.findById(req.params.id).populate({ path: "userId", select: "firstName"}).exec();
 
     if (!appointment) {
       res.status(404).send({ message: "Appointment not found" });
@@ -98,7 +98,11 @@ const getAllAppointments = async (req, res) => {
     const { startDate, endDate, page, limit } = req.query;
     const filter = {};
     if (startDate && endDate) {
-      filter.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
+      const startOfDay = new Date(startDate)
+      const endOfDay = new Date(endDate)
+      endOfDay.setDate(endOfDay.getDate() + 1)
+
+      filter.createdAt = { $gte: startOfDay, $lt: endOfDay };
     }
     const options = {
       page: parseInt(page) || 1,
