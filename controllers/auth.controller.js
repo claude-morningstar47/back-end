@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import RefreshToken from "../models/refreshToken.model.js";
 import { _config } from "../config/global.config.js";
 
-const signin = async (req, res) => {
+const signin = async (req, res, next) => {
   try {
     const user = await User.findOne({
       email: req.body.email,
@@ -29,6 +29,9 @@ const signin = async (req, res) => {
         message: "Invalid password",
       });
     }
+
+    user.isActive = true;
+    user.save();
 
     const token = jwt.sign({ id: user.id }, _config.jwt_secret, {
       algorithm: "HS256",
@@ -66,6 +69,7 @@ const signin = async (req, res) => {
       accessToken: token,
       refreshToken: refreshToken,
     });
+    // next()
   } catch (error) {
     res
       .status(500)
@@ -118,11 +122,26 @@ const refreshToken = async (req, res) => {
       .send({ message: "Failed to refresh token", error: error.message });
   }
 };
+const logout = async (req, res) => {
+  const { _id } = req.body;
 
-const logout = async (req, res)=>{
-  res.clearCookie('accessToken')
-  res.clearCookie('refreshToken')
-  res.send({message:'Déconnexion réussie'})
-}
+  try {
+    const user = await User.findById(_id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Mettre à jour le statut de l'utilisateur comme inactif lors de la déconnexion
+    user.isActive = false;
+    await user.save();
+
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+    res.json({ message: "Déconnexion réussie" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to logout", error: error.message });
+  }
+};
 
 export default { signin, refreshToken, logout };
