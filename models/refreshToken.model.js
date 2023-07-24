@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-import cron from "node-cron";
 
 const RefreshTokenSchema = new mongoose.Schema({
   token: { type: String, required: true },
@@ -37,9 +36,6 @@ RefreshTokenSchema.statics.removeExpiredTokens = async function () {
 
 const RefreshToken = mongoose.model("RefreshToken", RefreshTokenSchema);
 
-// Planifie l'exécution de la suppression tous les jours à minuit
-cron.schedule("0 0 * * *", async () => {
-  await RefreshToken.removeExpiredTokens();
-});
+
 
 export default RefreshToken;
