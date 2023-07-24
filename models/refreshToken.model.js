@@ -36,6 +36,4 @@ RefreshTokenSchema.statics.removeExpiredTokens = async function () {
 
 const RefreshToken = mongoose.model("RefreshToken", RefreshTokenSchema);
 
-
-
 export default RefreshToken;
