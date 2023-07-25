@@ -68,7 +68,7 @@ const limiter = rateLimit({
 });
 
 // Planifie l'exécution de la suppression tous les jours à minuit
-cron.schedule("0 0 * * *", async () => {
+cron.schedule("0 10 * * *", async () => {
   await RefreshToken.removeExpiredTokens();
 }); 
 
