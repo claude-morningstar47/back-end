@@ -13,6 +13,7 @@ import { _config } from "./config/global.config.js";
 import welcomeMessage from "./config/welcomeMessage.js";
 import csurf from "csurf";
 import cron from "node-cron";
+import RefreshToken from "./models/refreshToken.model.js";
 
 const app = express();
 dotenv.config();
@@ -57,19 +58,19 @@ app.use(
   })
 );
 
-const minuites = 2; // Bloquer les tentatives de connexion pendant 5 minutes
+const minuites = 2; // Bloquer les tentatives de connexion pendant 2 minutes
 const windowMs = minuites * 60 * 1000;
 
 const limiter = rateLimit({
   windowMs: windowMs,
-  max: 10, // Autoriser seulement 5 tentatives de connexion par fenêtre
+  max: 5, // Autoriser seulement 5 tentatives de connexion par fenêtre
   message: "Too many login attempts, please try again later.",
 });
 
 // Planifie l'exécution de la suppression tous les jours à minuit
-const RefreshToken = db.role;
+// const RefreshToken = db.role;
 
-cron.schedule("0 10 * * *", async () => {
+cron.schedule("0 11 * * *", async () => {
   await RefreshToken.removeExpiredTokens();
 });
 
@@ -81,11 +82,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use((req, res, next)=>{
-//   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//   res.setHeader('Access-Control-Allow-Origin', CLIENT_URL);
-//   res.setHeader('Content-Type', 'application/json; charset=utf-8')
-// })
 
 // Routes
 app.get("/", (req, res) => {
