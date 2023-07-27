@@ -33,16 +33,14 @@ const signin = async (req, res, next) => {
     user.isActive = true;
     user.save();
 
-    const token = jwt.sign({ id: user.id }, _config.jwt_secret, {
+    const token = await jwt.sign({ id: user.id }, _config.jwt_secret, {
       algorithm: "HS256",
       expiresIn: 3600,
     });
 
     const refreshToken = await RefreshToken.createToken(user);
 
-    const authorities = user.roles.map(
-      (role) => "ROLE_" + role.name.toUpperCase()
-    );
+    const authorities = user.roles.map((role) => "ROLE_" + role.name.toUpperCase());
 
     res.cookie("accessToken", token, {
       httpOnly: true,
@@ -132,7 +130,6 @@ const logout = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Mettre à jour le statut de l'utilisateur comme inactif lors de la déconnexion
     user.isActive = false;
     await user.save();
 

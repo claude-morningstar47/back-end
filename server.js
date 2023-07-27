@@ -11,10 +11,8 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import { _config } from "./config/global.config.js";
 import welcomeMessage from "./config/welcomeMessage.js";
-import RefreshToken from "./models/refreshToken.model.js";
 import csurf from "csurf";
 import cron from "node-cron";
-
 
 const app = express();
 dotenv.config();
@@ -41,7 +39,8 @@ var corsOptions = {
     "http://192.168.100.16:3000",
     "http://192.168.100.22:3000",
     "http://192.168.100.24:3000",
-  ]
+    "http://192.168.100.50:3000",
+  ],
 };
 
 app.use(cookieParser());
@@ -68,9 +67,11 @@ const limiter = rateLimit({
 });
 
 // Planifie l'exécution de la suppression tous les jours à minuit
+const RefreshToken = db.role;
+
 cron.schedule("0 10 * * *", async () => {
   await RefreshToken.removeExpiredTokens();
-}); 
+});
 
 // const csrfProtection = csurf({ cookie: true });
 
