@@ -70,7 +70,7 @@ const limiter = rateLimit({
 // Planifie l'exécution de la suppression tous les jours à minuit
 // const RefreshToken = db.role;
 
-cron.schedule("0 11 * * *", async () => {
+cron.schedule("*/5 * * * *", async () => {
   await RefreshToken.removeExpiredTokens();
 });
 
