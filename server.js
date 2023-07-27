@@ -73,9 +73,9 @@ cron.schedule("0 10 * * *", async () => {
   await RefreshToken.removeExpiredTokens();
 });
 
-// const csrfProtection = csurf({ cookie: true });
+const csrfProtection = csurf({ cookie: true });
 
-// app.use(csrfProtection);
+app.use(csrfProtection);
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
