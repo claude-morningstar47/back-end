@@ -9,11 +9,12 @@ import morgan from "morgan";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
+import favicon from 'serve-favicon'
 import { _config } from "./config/global.config.js";
 import welcomeMessage from "./config/welcomeMessage.js";
-import csurf from "csurf";
-import cron from "node-cron";
 import RefreshToken from "./models/refreshToken.model.js";
+import cron from "node-cron";
+import csurf from "csurf";
 
 const app = express();
 dotenv.config();
@@ -78,6 +79,7 @@ cron.schedule("*/5 * * * *", async () => {
 // const csrfProtection = csurf({ cookie: true });
 
 // app.use(csrfProtection);
+app.use(favicon(__dirname + "/appointment.png"))
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
