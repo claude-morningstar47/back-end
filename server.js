@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import path from 'path'
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { db } from "./models/index.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -75,11 +77,13 @@ cron.schedule("*/5 * * * *", async () => {
   await RefreshToken.removeExpiredTokens();
   console.log("Tâche de rafraîchissement des tokens exécutée avec succès !");
 });
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
+const faviconPath = path.join(__dirname, "appointment.png")
 // const csrfProtection = csurf({ cookie: true });
-
 // app.use(csrfProtection);
-app.use(favicon(__dirname + "/appointment.png"))
+app.use(favicon(faviconPath))
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
