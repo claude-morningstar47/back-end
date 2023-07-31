@@ -6,11 +6,11 @@ import bcrypt from "bcryptjs";
 import RefreshToken from "../models/refreshToken.model.js";
 import { _config } from "../config/global.config.js";
 
-const signin = async (req, res, next) => {
+const signin = async (req, res) => {
   try {
-    const user = await User.findOne({
-      email: req.body.email,
-    })
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email })
       .populate("roles", "-__v")
       .exec();
 
@@ -18,10 +18,7 @@ const signin = async (req, res, next) => {
       return res.status(404).send({ message: "User not found" });
     }
 
-    const passwordIsValid = bcrypt.compareSync(
-      req.body.password,
-      user.password
-    );
+    const passwordIsValid = bcrypt.compareSync(password, user.password);
 
     if (!passwordIsValid) {
       return res.status(401).send({
@@ -31,9 +28,9 @@ const signin = async (req, res, next) => {
     }
 
     user.isActive = true;
-    user.save();
+    await user.save();
 
-    const token = await jwt.sign({ id: user.id }, _config.jwt_secret, {
+    const token = jwt.sign({ id: user.id }, _config.jwt_secret, {
       algorithm: "HS256",
       expiresIn: 3600,
     });
@@ -67,27 +64,23 @@ const signin = async (req, res, next) => {
       accessToken: token,
       refreshToken: refreshToken,
     });
-    // next()
   } catch (error) {
-    res
-      .status(500)
-      .send({ message: "Failed to sign in", error: error.message });
+    res.status(500).send({ message: "Failed to sign in", error: error.message });
   }
 };
 
 const refreshToken = async (req, res) => {
-  const { refreshToken: requestToken } = req.body;
-
-  if (!requestToken) {
-    return res.status(403).json({ message: "Refresh Token is required" });
-  }
-
   try {
+    const { refreshToken: requestToken } = req.body;
+
+    if (!requestToken) {
+      return res.status(403).json({ message: "Refresh Token is required" });
+    }
+
     let refreshToken = await RefreshToken.findOne({ token: requestToken });
 
     if (!refreshToken) {
-      res.status(403).json({ message: "Refresh token is not in database" });
-      return;
+      return res.status(403).json({ message: "Refresh token is not in database" });
     }
 
     if (RefreshToken.verifyExpiration(refreshToken)) {
@@ -95,10 +88,9 @@ const refreshToken = async (req, res) => {
         useFindAndModify: false,
       }).exec();
 
-      res.status(403).json({
-        message: "Refresh token has expired. Please make a new sign-in request",
+      return res.status(403).json({
+        message: "Refresh token was expired. Please make a new sign-in request",
       });
-      return;
     }
 
     const newAccessToken = jwt.sign(
@@ -120,10 +112,11 @@ const refreshToken = async (req, res) => {
       .send({ message: "Failed to refresh token", error: error.message });
   }
 };
-const logout = async (req, res) => {
-  const { _id } = req.body;
 
+const logout = async (req, res) => {
   try {
+    const { _id } = req.body;
+
     const user = await User.findById(_id);
 
     if (!user) {
