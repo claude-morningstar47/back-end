@@ -16,6 +16,7 @@ const createAppointment = async (req, res) => {
     const newAppointment = await Appointment.create({
       userId,
       date: req.body.date,
+      time: req.body.time,
       name: req.body.name,
       phone_1: req.body.phone_1,
       phone_2: req.body.phone_2,
@@ -54,6 +55,7 @@ const updateAppointment = async (req, res) => {
       req.params.id,
       {
         date: req.body.date,
+        time: req.body.time,
         name: req.body.name,
         phone_1: req.body.phone_1,
         phone_2: req.body.phone_2,
