@@ -32,7 +32,8 @@ const signin = async (req, res) => {
 
     const token = jwt.sign({ id: user.id }, _config.jwt_secret, {
       algorithm: "HS256",
-      expiresIn: 3600,
+      expiresIn: 10800,
+      // expiresIn: 3600,
     });
 
     const refreshToken = await RefreshToken.createToken(user);
