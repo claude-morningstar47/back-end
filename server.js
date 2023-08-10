@@ -66,7 +66,7 @@ const windowMs = minuites * 60 * 1000;
 
 const limiter = rateLimit({
   windowMs: windowMs,
-  max: 5, // Autoriser seulement 5 tentatives de connexion par fenêtre
+  max: 15, // Autoriser seulement 5 tentatives de connexion par fenêtre
   message: "Too many login attempts, please try again later.",
 });
 
