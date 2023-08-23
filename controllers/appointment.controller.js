@@ -124,7 +124,7 @@ const getAllAppointments = async (req, res) => {
 
 const getAppointmentsByUserId = async (req, res) => {
   try {
-    const { month, page, limit } = req.query;
+    const { date, page, limit } = req.query;
     const { userId } = req.params;
 
     const filter = { userId };
@@ -144,13 +144,19 @@ const getAppointmentsByUserId = async (req, res) => {
     //   filter.createdAt = { $gte: startDate, $lt: endDate };
     // }
 
-    if (month) {
-      const selectedMonth = parseInt(month); // Convertir le mois en nombre
-      const startDate = new Date(new Date().getFullYear(), selectedMonth - 1, 1);
-      const endDate = new Date(new Date().getFullYear(), selectedMonth, 1);
+    // if (month) {
+    //   const selectedMonth = parseInt(month); // Convertir le mois en nombre
+    //   const startDate = new Date(new Date().getFullYear(), selectedMonth - 1, 1);
+    //   const endDate = new Date(new Date().getFullYear(), selectedMonth, 1);
+    //   filter.createdAt = { $gte: startDate, $lt: endDate };
+    // }
+   
+    if (date) {
+      const [selectedYear, selectedMonth] = date.split("-");
+      const startDate = new Date(selectedYear, selectedMonth - 1, 1);
+      const endDate = new Date(selectedYear, selectedMonth, 1);
       filter.createdAt = { $gte: startDate, $lt: endDate };
     }
-   
    
    
     const options = {
