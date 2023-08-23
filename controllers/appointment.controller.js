@@ -99,6 +99,7 @@ const getAllAppointments = async (req, res) => {
   try {
     const { startDate, endDate, page, limit } = req.query;
     const filter = {};
+
     if (startDate && endDate) {
       const startOfDay = new Date(startDate)
       const endOfDay = new Date(endDate)
@@ -123,21 +124,34 @@ const getAllAppointments = async (req, res) => {
 
 const getAppointmentsByUserId = async (req, res) => {
   try {
-    const { date, page, limit } = req.query;
+    const { month, page, limit } = req.query;
     const { userId } = req.params;
 
     const filter = { userId };
 
-    if (date) {
-      const startDate = new Date(date);
-      const endDate = new Date(date);
-      endDate.setDate(endDate.getDate() + 1);
+    // if (date) {
+    //   const startDate = new Date(date);
+    //   const endDate = new Date(date);
+    //   endDate.setDate(endDate.getDate() + 1);
+    //   filter.createdAt = { $gte: startDate, $lt: endDate };
+    // }
+
+    // if (date) {
+    //   const startDate = new Date(date);
+    //   startDate.setDate(1); // Début du mois
+    //   const endDate = new Date(startDate);
+    //   endDate.setMonth(endDate.getMonth() + 1); // Fin du mois suivant
+    //   filter.createdAt = { $gte: startDate, $lt: endDate };
+    // }
+
+    if (month) {
+      const [selectedYear, selectedMonth] = month.split("-");
+      const startDate = new Date(selectedYear, selectedMonth - 1, 1);
+      const endDate = new Date(selectedYear, selectedMonth, 1);
       filter.createdAt = { $gte: startDate, $lt: endDate };
     }
-
-    // if (startDate && endDate) {
-    //   filter.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
-    // }
+   
+   
     const options = {
       page: parseInt(page) || 1,
       limit: parseInt(limit) || 10,
