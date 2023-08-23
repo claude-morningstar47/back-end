@@ -145,11 +145,12 @@ const getAppointmentsByUserId = async (req, res) => {
     // }
 
     if (month) {
-      const [selectedYear, selectedMonth] = month.split("-");
-      const startDate = new Date(selectedYear, selectedMonth - 1, 1);
-      const endDate = new Date(selectedYear, selectedMonth, 1);
+      const selectedMonth = parseInt(month); // Convertir le mois en nombre
+      const startDate = new Date(new Date().getFullYear(), selectedMonth - 1, 1);
+      const endDate = new Date(new Date().getFullYear(), selectedMonth, 1);
       filter.createdAt = { $gte: startDate, $lt: endDate };
     }
+   
    
    
     const options = {
