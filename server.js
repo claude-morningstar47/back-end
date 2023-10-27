@@ -45,7 +45,7 @@ var corsOptions = {
     "http://192.168.100.22:3000",
     "http://192.168.100.24:3000",
     "http://192.168.100.50:3000",
-    "https://frent-end.vercel.app/",
+    "https://frent-end.vercel.app",
  ],
 
 
