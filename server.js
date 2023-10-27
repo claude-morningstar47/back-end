@@ -28,7 +28,7 @@ var corsOptions = {
   optionsSuccessStatus: 204,
   credentials: true,
   allowedHeaders: "Content-Type, x-refresh-token, x-access-token",
-  Access-Control-Allow-Origin: "https://frent-end.vercel.app/",
+
   origin: [
    "http://localhost:3000",
    "http://192.168.100.2:3000",
