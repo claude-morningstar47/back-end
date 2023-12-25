@@ -15,13 +15,13 @@ const catchError = (err, res) => {
 
 const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
-  
+
   if (!token) {
     return res.status(403).send({ message: "No token provided" });
   }
-  
+
   try {
-    const decoded = jwt.verify(token, _config.jwt_secret);    
+    const decoded = jwt.verify(token, _config.jwt_secret);
     req.userId = decoded.id;
     next();
   } catch (err) {
