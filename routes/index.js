@@ -10,7 +10,7 @@ import rateLimit from "express-rate-limit";
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.send(welcomeMessage);
+    res.send(welcomeMessage);
 });
 
 router.use("/api/auth/", rateLimit(serverConfig.limiter), authRoutes);
@@ -18,7 +18,7 @@ router.use("/api/users/", userRoutes);
 router.use("/api/appointments/", appointmentRoutes);
 
 router.use("*", (req, res) => {
-  res.status(404).json({ message: "Route not found" });
+    res.status(404).json({ message: "Route not found" });
 });
 
 export default router;
