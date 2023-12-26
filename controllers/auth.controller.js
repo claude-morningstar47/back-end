@@ -6,6 +6,10 @@ import bcrypt from "bcryptjs";
 import RefreshToken from "../models/refreshToken.model.js";
 import { _config } from "../config/global.config.js";
 
+function createToken(payload, secret, options) {
+  return jwt.sign(payload, secret, options)
+}
+
 const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -30,11 +34,16 @@ const signin = async (req, res) => {
     user.isActive = true;
     await user.save();
 
-    const token = jwt.sign({ id: user.id }, _config.jwt_secret, {
+    const token = createToken({ id: user.id }, _config.jwt_secret, {
       algorithm: "HS256",
-      expiresIn: 10800,
-      // expiresIn: 3600,
-    });
+      expiresIn: 10800
+    })
+
+    // const token = jwt.sign({ id: user.id }, _config.jwt_secret, {
+    //   algorithm: "HS256",
+    //   expiresIn: 10800,
+    //   // expiresIn: 3600,
+    // });
 
     const refreshToken = await RefreshToken.createToken(user);
 
@@ -94,7 +103,7 @@ const refreshToken = async (req, res) => {
       });
     }
 
-    const newAccessToken = jwt.sign(
+    const newAccessToken = createToken(
       { id: refreshToken.user._id },
       _config.jwt_secret,
       {
@@ -102,6 +111,15 @@ const refreshToken = async (req, res) => {
         expiresIn: 3600,
       }
     );
+
+    // const newAccessToken = jwt.sign(
+    //   { id: refreshToken.user._id },
+    //   _config.jwt_secret,
+    //   {
+    //     algorithm: "HS256",
+    //     expiresIn: 3600,
+    //   }
+    // );
 
     return res.status(200).json({
       accessToken: newAccessToken,
