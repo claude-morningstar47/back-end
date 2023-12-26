@@ -18,6 +18,7 @@
   ],
   "functions": {
     "removeExpiredRefreshTokens": {
+      "handler": "background.removeExpiredRefreshTokens",
       "schedule": "cron(0 10 * * *)" 
     }
   }
