@@ -18,8 +18,14 @@
   ],
   "functions": {
     "removeExpiredRefreshTokens": {
-      "handler": "background.removeExpiredRefreshTokens",
-      "schedule": "cron(0 10 * * *)" 
+      "runtime": "@vercel/node"
+    }
+  },
+  "events": {
+    "schedule": {
+      "rate": "1d",
+      "enabled": true,
+      "function": "removeExpiredRefreshTokens"
     }
   }
 }
