@@ -31,20 +31,6 @@ var corsOptions = {
 
   origin: [
     //"http://localhost:3000",
-    //"http://192.168.100.2:3000",
-    //"http://192.168.100.5:3000",
-    //"http://192.168.100.6:3000",
-    // "http://192.168.100.7:3000",
-    // "http://192.168.100.8:3000",
-    //"http://192.168.100.9:3000",
-    //"http://192.168.100.12:3000",
-    //"http://192.168.100.13:3000",
-    //"http://192.168.100.14:3000",
-    //"http://192.168.100.15:3000",
-    // "http://192.168.100.16:3000",
-    // "http://192.168.100.22:3000",
-    // "http://192.168.100.24:3000",
-    // "http://192.168.100.50:3000",
     "https://frent-end.vercel.app",
   ],
 
@@ -75,7 +61,6 @@ const limiter = rateLimit({
 });
 
 // Planifie l'exécution de la suppression tous les jours à minuit
-// const RefreshToken = db.role;
 
 cron.schedule("0 10 * * *", async () => {
   await RefreshToken.removeExpiredTokens();
