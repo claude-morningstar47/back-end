@@ -30,23 +30,23 @@ var corsOptions = {
   allowedHeaders: "Content-Type, x-refresh-token, x-access-token",
 
   origin: [
-   //"http://localhost:3000",
-   //"http://192.168.100.2:3000",
-   //"http://192.168.100.5:3000",
-   //"http://192.168.100.6:3000",
-  // "http://192.168.100.7:3000",
-  // "http://192.168.100.8:3000",
+    //"http://localhost:3000",
+    //"http://192.168.100.2:3000",
+    //"http://192.168.100.5:3000",
+    //"http://192.168.100.6:3000",
+    // "http://192.168.100.7:3000",
+    // "http://192.168.100.8:3000",
     //"http://192.168.100.9:3000",
     //"http://192.168.100.12:3000",
     //"http://192.168.100.13:3000",
     //"http://192.168.100.14:3000",
     //"http://192.168.100.15:3000",
-   // "http://192.168.100.16:3000",
-   // "http://192.168.100.22:3000",
-   // "http://192.168.100.24:3000",
-   // "http://192.168.100.50:3000",
+    // "http://192.168.100.16:3000",
+    // "http://192.168.100.22:3000",
+    // "http://192.168.100.24:3000",
+    // "http://192.168.100.50:3000",
     "https://frent-end.vercel.app",
- ],
+  ],
 
 
 };
@@ -81,6 +81,7 @@ cron.schedule("0 10 * * *", async () => {
   await RefreshToken.removeExpiredTokens();
   console.log("Tâche de rafraîchissement des tokens exécutée avec succès !");
 });
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
