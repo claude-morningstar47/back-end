@@ -15,11 +15,7 @@
       "src": "/(.*)",
       "dest": "server.js"
     }
-  ],
-  "functions": {
-    "removeExpiredRefreshTokens": {
-      "handler": "background.removeExpiredRefreshTokens",
-      "schedule": "cron(0 10 * * *)" 
-    }
-  }
+  ]
+
+ 
 }
