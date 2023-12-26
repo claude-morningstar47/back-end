@@ -4,6 +4,10 @@
     {
       "src": "server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "background.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -11,5 +15,11 @@
       "src": "/(.*)",
       "dest": "server.js"
     }
-  ]
+  ],
+  "functions": {
+    "removeExpiredRefreshTokens": {
+      "handler": "background.removeExpiredRefreshTokens",
+      "schedule": "cron(0 10 * * *)" 
+    }
+  }
 }
