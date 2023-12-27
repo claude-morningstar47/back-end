@@ -33,6 +33,7 @@
     "node-cron": "^3.0.2",
     "nodemon": "^2.0.22",
     "serve-favicon": "^2.5.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "winston": "^3.11.0"
   }
 }
