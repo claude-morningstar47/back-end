@@ -55,7 +55,8 @@ const faviconPath = path.join(__dirname, "appointment.png");
 app.use(favicon(faviconPath));
 
 // Utilisation du logger Winston avec Morgan pour la journalisation des requêtes
-app.use(morgan("combined", { stream: new WinstonStreamAdapter() }));
+// app.use(morgan("combined", { stream: new WinstonStreamAdapter() }));
+app.use(morgan("combined"));
 
 // Configuration du body parser
 app.use(express.json());
