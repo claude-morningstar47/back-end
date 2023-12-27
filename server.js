@@ -16,9 +16,9 @@ import fs from 'fs';
 const app = express();
 
 // Configuration des répertoires et fichiers de journal
-const logDirectory = path.join(path.dirname(fileURLToPath(import.meta.url)), 'logs');
-const logFilePath = path.join(logDirectory, 'access.log');
-const errFilePath = path.join(logDirectory, 'error.log');
+// const logDirectory = path.join(path.dirname(fileURLToPath(import.meta.url)), 'logs');
+// const logFilePath = path.join(logDirectory, 'access.log');
+// const errFilePath = path.join(logDirectory, 'error.log');
 
 // Vérification et création du répertoire des journaux
 // if (!fs.existsSync(logDirectory)) {
@@ -33,15 +33,15 @@ class WinstonStreamAdapter {
 }
 
 // Configuration du logger Winston
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: errFilePath, level: 'error' }),
-    new winston.transports.File({ filename: logFilePath, level: 'info' }),
-  ],
-});
+// const logger = winston.createLogger({
+//   level: 'info',
+//   format: winston.format.json(),
+//   transports: [
+//     new winston.transports.Console(),
+//     new winston.transports.File({ filename: errFilePath, level: 'error' }),
+//     new winston.transports.File({ filename: logFilePath, level: 'info' }),
+//   ],
+// });
 
 // Configuration des middlewares
 app.use(session(serverConfig.sessionOptions));
@@ -56,7 +56,7 @@ app.use(favicon(faviconPath));
 
 // Utilisation du logger Winston avec Morgan pour la journalisation des requêtes
 // app.use(morgan("combined", { stream: new WinstonStreamAdapter() }));
-app.use(morgan("combined"));
+app.use(morgan('dev'));
 
 // Configuration du body parser
 app.use(express.json());
@@ -67,7 +67,8 @@ app.use("/", router);
 
 // Gestionnaire d'erreurs pour les erreurs internes du serveur (500)
 app.use((err, req, res, next) => {
-  logger.error(err.stack);
+  // logger.error(err.stack);
+  console.error(err.stack);
   res.status(err.status || 500).json({ message: err.message || "Internal Server Error" });
 });
 
@@ -86,7 +87,8 @@ async function connectToDb() {
     console.log("Successfully connected to MongoDB.");
     await initial();
   } catch (error) {
-    logger.error("Connection", error);
+    // logger.error("Connection", error);
+    console.error("Connection", error);
     process.exit(1);
   }
 }
@@ -107,6 +109,7 @@ async function initial() {
       console.log("Roles added to the collection.");
     }
   } catch (err) {
-    logger.error("Error initializing roles", err);
+    // logger.error("Error initializing roles", err);
+    console.error("Error initializing roles", err);
   }
 }
