@@ -21,9 +21,9 @@ const logFilePath = path.join(logDirectory, 'access.log');
 const errFilePath = path.join(logDirectory, 'error.log');
 
 // Vérification et création du répertoire des journaux
-if (!fs.existsSync(logDirectory)) {
-  fs.mkdirSync(logDirectory);
-}
+// if (!fs.existsSync(logDirectory)) {
+//   fs.mkdirSync(logDirectory);
+// }
 
 // Adaptateur pour le flux de Winston
 class WinstonStreamAdapter {
