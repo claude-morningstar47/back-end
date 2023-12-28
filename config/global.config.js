@@ -15,4 +15,5 @@ export const _config = {
   port_number: process.env.PORT || 8089,
   cookie_max_age: process.env.COOKIE_MAX_AGE,
   windowMs: process.env.WINDOW_MS,
+  node_env: process.env.NODE_ENV || "development",
 };
