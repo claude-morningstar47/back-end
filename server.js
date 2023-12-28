@@ -1,18 +1,17 @@
-import express from "express";
+import fs from "fs";
 import cors from "cors";
+import path from "path";
 import morgan from "morgan";
-import session from "express-session";
-import cookieParser from "cookie-parser";
+import express from "express";
+import winston from "winston";
 import favicon from "serve-favicon";
 import { fileURLToPath } from "url";
-import path from "path";
+import session from "express-session";
 import { db } from "./models/index.js";
-import { _config } from "./config/global.config.js";
-import { serverConfig } from "./config/server.config.mjs";
 import router from "./routes/index.js";
-import winston from "winston";
-import fs from "fs";
+import cookieParser from "cookie-parser";
 import { initial } from "./config/db.config.js";
+import { serverConfig } from "./config/server.config.mjs";
 import { removeExpiredRefreshTokens } from "./background.js";
 
 const app = express();
@@ -95,7 +94,7 @@ app.listen(serverConfig.port, () => {
 // Fonction pour la connexion à la base de données et initialisation
 async function connectToDb() {
   try {
-    await db.mongoose.connect(_config.mongo_url);
+    await db.mongoose.connect(serverConfig.mongodb_connect);
     console.log("Successfully connected to MongoDB.");
     await initial();
   } catch (error) {

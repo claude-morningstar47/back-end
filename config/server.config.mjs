@@ -3,6 +3,8 @@ import { _config as globalConfig } from "./global.config.js";
 
 export const serverConfig = {
   port: globalConfig.port_number,
+  environment: globalConfig.node_env,
+  mongodb_connect: globalConfig.mongo_url,
   corsOptions: {
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
@@ -30,5 +32,4 @@ export const serverConfig = {
       maxAge: 360000,
     },
   },
-  environment: globalConfig.node_env,
 };
