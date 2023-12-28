@@ -28,3 +28,6 @@
 {"level":"info","message":"::ffff:127.0.0.1 - GET /api/appointments HTTP/1.1 401 52 - 9.547 ms\n"}
 {"level":"info","message":"GET /api/appointments 401 52 - 13.383 ms\n"}
 {"level":"info","message":"::ffff:127.0.0.1 - - [27/Dec/2023:14:54:27 +0000] \"GET /api/appointments HTTP/1.1\" 401 52 \"-\" \"Thunder Client (https://www.thunderclient.com)\"\n"}
+{"level":"error","message":"Connection initial is not defined","stack":"ReferenceError: initial is not defined\n    at connectToDb (file:///Users/mac/Documents/GitHub/back-end/server.js:96:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Connection initial is not defined","stack":"ReferenceError: initial is not defined\n    at connectToDb (file:///Users/mac/Documents/GitHub/back-end/server.js:96:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Connection logger is not defined","stack":"ReferenceError: logger is not defined\n    at initial (file:///Users/mac/Documents/GitHub/back-end/config/db.config.js:23:5)\n    at connectToDb (file:///Users/mac/Documents/GitHub/back-end/server.js:97:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
