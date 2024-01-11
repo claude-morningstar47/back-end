@@ -13,6 +13,7 @@ import cookieParser from "cookie-parser";
 import { initial } from "./config/db.config.js";
 import { serverConfig } from "./config/server.config.mjs";
 import { removeExpiredRefreshTokens } from "./background.js";
+import { _config } from "./config/global.config.js";
 
 const app = express();
 let logger;
@@ -94,7 +95,8 @@ app.listen(serverConfig.port, () => {
 // Fonction pour la connexion à la base de données et initialisation
 async function connectToDb() {
   try {
-    await db.mongoose.connect(serverConfig.mongodb_connect);
+    // await db.mongoose.connect(serverConfig.mongodb_connect);
+    await db.mongoose.connect(_config.mongo_url);
     console.log("Successfully connected to MongoDB.");
     await initial();
   } catch (error) {
