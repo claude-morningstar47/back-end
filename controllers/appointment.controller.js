@@ -35,7 +35,7 @@ const createAppointment = async (req, res) => {
 const getAppointmentById = async (req, res) => {
   try {
     const appointment = await Appointment.findById(req.params.id).populate({ path: "userId", select: "firstName"}).exec();
-
+ 
     if (!appointment) {
       res.status(404).send({ message: "Appointment not found" });
     } else {
@@ -50,7 +50,7 @@ const getAppointmentById = async (req, res) => {
 };
 
 const updateAppointment = async (req, res) => {
-  try {
+  try {  
     const updateAppointment = await Appointment.findByIdAndUpdate(
       req.params.id,
       {

@@ -12,7 +12,7 @@ export const serverConfig = {
     credentials: true,
     allowedHeaders: "Content-Type, x-refresh-token, x-access-token",
     origin: [
-      //"http://localhost:3000",
+      "http://localhost:3000",
       "https://frent-end.vercel.app",
     ],
   },
